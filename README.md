@@ -1,3 +1,10 @@
+[React documentation](https://react.dev/)
+
+## Project Links
+
+- Url repository: https://gitlab.com/naylaarinaa/project-test-naylaarinaa
+- Url deployment: https://project-test-naylaarinaa.vercel.app
+
 # Suitmedia Frontend
 
 This project is built with [React](https://react.dev/) and [Tailwind CSS](https://tailwindcss.com/).
