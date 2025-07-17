@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { ApiService } from "../config/api";
 
 const ListPost: React.FC = () => {
   const navigate = useNavigate();
@@ -74,31 +75,22 @@ const ListPost: React.FC = () => {
     setSort(urlParams.sort);
   }, [getUrlParams]);
 
-  // API fetch
+  // API fetch using ApiService
   const fetchPosts = useCallback(async () => {
     setLoading(true);
     setError(null);
 
-    const baseUrl = "/api/ideas";
-    const queryParams = [
-      `page[number]=${page}`,
-      `page[size]=${pageSize}`,
-      `append[]=small_image`,
-      `append[]=medium_image`,
-      `sort=${sort === "Newest" ? "-published_at" : "published_at"}`,
-    ].join("&");
-
     try {
-      const res = await fetch(`${baseUrl}?${queryParams}`, {
-        headers: { Accept: "application/json" },
+      const data = await ApiService.getIdeas({
+        page,
+        pageSize,
+        sort,
       });
-      if (!res.ok)
-        throw new Error(`API error: ${res.status} ${res.statusText}`);
 
-      const data = await res.json();
       setPosts(data.data || []);
       setTotal(data.meta?.total || 0);
     } catch (err) {
+      console.error("Fetch error:", err);
       setError(
         err instanceof Error
           ? err.message
